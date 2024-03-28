@@ -57,6 +57,7 @@ public:
 // void dfs(ListGraph g, L1 preVisit, L2 postVisit, uint32_t start=0, bool endFast=false); // depth first search, with lambda functions previsit and postvisit.
 
 void dfs(ListGraph g, std::function<void(uint32_t, uint32_t)> preVisit, std::function<void(uint32_t, uint32_t)> postVisit, uint32_t start=0, bool endFast=false);
+std::vector<uint32_t> lin(ListGraph g); // sorts by decreasing postorder
 
 }
 

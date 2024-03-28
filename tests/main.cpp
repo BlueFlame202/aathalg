@@ -5,18 +5,36 @@
 #include <string>
 #include <sstream>
 #include <functional>
+#include <chrono>
 
-#define START_TEST { std::cout << "Running " << __FUNCTION__ << "..." << std::endl; }
-#define PASS { std::cout << __FUNCTION__ << " passed!" << std::endl; return true; }
-#define FAIL(x, y) { std::cerr << __FUNCTION__ << " failed... expected " << x << " but got " << y << std::endl; return false; }
+
+
+#define START_TEST { std::cout << "Running " << __FUNCTION__ << "... "; }
+#define PASS(dur) { std::cout << __FUNCTION__ << " passed!" << " Took " << ((std::chrono::duration<double, std::milli>)(dur)).count() << " milliseconds. B-)" << std::endl; return true; }
+#define AFAIL(x, y) { std::cerr << __FUNCTION__ << " failed... expected " << x << " but got " << y << ". :-(" << std::endl; return false; }
+#define TFAIL(x, y) { std::cerr << __FUNCTION__ << " failed... took " << x << " milliseconds but should take at most " << y << " milliseconds. :-(" << std::endl; return false; }
 
 template<typename T>
-std::string toString(const T arr[], size_t size) {
+std::string toString(const T arr[], size_t size) 
+{
     std::stringstream ss;
     ss << "[";
     for (size_t i = 0; i < size; ++i) {
         if (i > 0) ss << ", ";
         ss << arr[i];
+    }
+    ss << "]";
+    return ss.str();
+}
+
+template<typename T>
+std::string toString(std::vector<T> vec) 
+{
+    std::stringstream ss;
+    ss << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+        if (i > 0) ss << ", ";
+        ss << vec[i];
     }
     ss << "]";
     return ss.str();
@@ -65,7 +83,9 @@ bool dfsTest()
         clock++;
     };
 
+    auto t1 = std::chrono::high_resolution_clock::now();
     aathalg::dfs(g, previsit, postvisit);
+    auto t2 = std::chrono::high_resolution_clock::now();
 
     uint32_t correctPre[9] = { 0, 1, 2, 14, 6, 3, 13, 12, 4 };
     uint32_t correctPost[9] = { 11, 10, 9, 15, 7, 8, 16, 17, 5 };
@@ -73,19 +93,44 @@ bool dfsTest()
     for (int i = 0; i < 9; i++)
     {
         if (correctPre[i] != pre[i])
-            FAIL(toString(correctPre, 9), toString(pre, 9))
+            AFAIL(toString(correctPre, 9), toString(pre, 9))
         if (correctPost[i] != post[i])
-            FAIL(toString(correctPost, 9), toString(post, 9))
+            AFAIL(toString(correctPost, 9), toString(post, 9))
     }
-    PASS // return statement in here, idk if I like this practice 
+    PASS(t2-t1) // return statement in here, idk if I like this practice 
 }
 
+bool linTest()
+{
+    START_TEST
 
+    aathalg::ListGraph g(6);
+    g.addEdge(0, 1, 1, true);
+    g.addEdge(0, 3, 2, true);
+    g.addEdge(3, 1, 4, true);
+    g.addEdge(3, 4, 3, true);
+    g.addEdge(1, 2, 6, true);
+    g.addEdge(2, 4, 1, true); 
+    g.addEdge(2, 5, 2, true);
+    g.addEdge(4, 5, 1, true);
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    std::vector<uint32_t> res = lin(g);
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    std::vector<uint32_t> correct = { 0, 3, 1, 2, 4, 5 };
+
+    for (int i = 0; i < 6; i++)
+        if (res[i] != correct[i])
+            AFAIL(toString(correct), toString(res));
+
+    PASS(t2-t1)
+}
 
 
 int main()
 {
-    std::vector<std::function<bool()> > tests = { dfsTest };
+    std::vector<std::function<bool()> > tests = { dfsTest, linTest };
     runTests(tests);
 
     return 0;

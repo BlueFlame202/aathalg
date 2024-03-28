@@ -1,6 +1,7 @@
 #include "aathalg/graph.h"
 
 #include <stack>
+#include <queue>
 
 namespace aathalg
 {
@@ -123,6 +124,37 @@ void dfs(ListGraph g, std::function<void(uint32_t, uint32_t)> preVisit, std::fun
             }
         }
     }
+}
+
+std::vector<uint32_t> lin(ListGraph g)
+{
+    uint32_t * post = new uint32_t[g.vsize()];
+    uint32_t clock = 0;
+
+    auto previsit = [&post, &clock](uint32_t n, uint32_t counter) -> void
+    {
+        clock++;
+    };
+
+    auto postvisit = [&post, &clock](uint32_t n, uint32_t counter) -> void
+    {
+        post[n] = clock;
+        clock++;
+    };
+
+    dfs(g, previsit, postvisit);
+
+    std::priority_queue<std::pair<uint32_t, uint32_t> > pq;
+    for (int i = 0; i < g.vsize(); i++)
+        pq.push(std::make_pair(post[i], i));
+    
+    std::vector<uint32_t> res;
+    while (!pq.empty())
+    {
+        res.push_back(pq.top().second);
+        pq.pop();
+    }
+    return res;
 }
 
 }
