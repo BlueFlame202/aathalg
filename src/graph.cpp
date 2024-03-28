@@ -1,4 +1,4 @@
-#include "aathalg/graph.h"
+#include "aathalg/graph.hpp"
 
 #include <stack>
 #include <queue>

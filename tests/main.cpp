@@ -1,5 +1,5 @@
 
-#include "aathalg/graph.h"
+#include "aathalg/graph.hpp"
 
 #include <iostream>
 #include <string>
