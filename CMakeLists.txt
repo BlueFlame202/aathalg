@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.0)
-project(aathalg)
+cmake_minimum_required(VERSION 3.5)
+project(algae)
 
 # Set C++ standard to at least C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -20,9 +20,9 @@ set(TEST_SOURCES
 )
 
 # Add a library target for the main sources
-add_library(aathalg_lib ${MAIN_SOURCES})
+add_library(algae_lib ${MAIN_SOURCES})
 
 
 # Add an executable target for the tests and link with the library
 add_executable(tests ${TEST_SOURCES})
-target_link_libraries(tests aathalg_lib)
+target_link_libraries(tests algae_lib)
