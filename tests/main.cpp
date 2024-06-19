@@ -1,6 +1,6 @@
 
-#include "aathalg/graph.hpp"
-#include "aathalg/list.hpp"
+#include "algae/graph.hpp"
+#include "algae/list.hpp"
 
 #include <iostream>
 #include <string>
@@ -57,7 +57,7 @@ void run_tests(std::vector<std::function<bool()> > tests)
 bool dfs_test()
 {
     START_TEST
-    aathalg::list_graph g(9);
+    algae::list_graph g(9);
     g.add_edge(0, 4);
     g.add_edge(0, 1);
     g.add_edge(1, 4);
@@ -86,7 +86,7 @@ bool dfs_test()
     };
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    aathalg::dfs(g, previsit, postvisit);
+    algae::dfs(g, previsit, postvisit);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     size_t correct_pre[9] = { 0, 1, 2, 14, 6, 3, 13, 12, 4 };
@@ -102,11 +102,12 @@ bool dfs_test()
     PASS(t2-t1) // return statement in here, idk if I like this practice 
 }
 
+// tests linearization
 bool lin_test()
 {
     START_TEST
 
-    aathalg::list_graph g(6);
+    algae::list_graph g(6);
     g.add_edge(0, 1, 1, true);
     g.add_edge(0, 3, 2, true);
     g.add_edge(3, 1, 4, true);
@@ -129,11 +130,12 @@ bool lin_test()
     PASS(t2-t1)
 }
 
+// tests min distance through a dag 
 bool dag_min_dist_test()
 {
     START_TEST
 
-    aathalg::list_graph g(6);
+    algae::list_graph g(6);
     g.add_edge(0, 1, 1, true);
     g.add_edge(0, 3, 2, true);
     g.add_edge(3, 1, 4, true);
@@ -156,14 +158,15 @@ bool dag_min_dist_test()
     PASS(t2-t1)
 }
 
-bool longest_indcreasing_subsequence_test()
+// tests longest increasing subsequence
+bool longest_increasing_subsequence_test()
 {
     START_TEST
 
     std::vector<int> seq = { 5, 2, 8, 6, 3, 6, 9, 7 };
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::vector<int> res = aathalg::longest_increasing_subsequence(seq);
+    std::vector<int> res = algae::longest_increasing_subsequence(seq);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     std::vector<int> correct = { 2, 3, 6, 9 };
@@ -175,6 +178,7 @@ bool longest_indcreasing_subsequence_test()
     PASS(t2-t1)
 }
 
+// tests edit distance
 bool edit_distance_test_1()
 {
     START_TEST
@@ -183,7 +187,7 @@ bool edit_distance_test_1()
     std::string b = "sunny";
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    size_t res = aathalg::edit_distance(a, b);
+    size_t res = algae::edit_distance(a, b);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     size_t correct = 3;
@@ -194,6 +198,7 @@ bool edit_distance_test_1()
     PASS(t2-t1)
 }
 
+// tests edit distance
 bool edit_distance_test_2()
 {
     START_TEST
@@ -202,7 +207,7 @@ bool edit_distance_test_2()
     std::string b = "exponential";
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    size_t res = aathalg::edit_distance(a, b);
+    size_t res = algae::edit_distance(a, b);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     size_t correct = 6;
@@ -213,6 +218,7 @@ bool edit_distance_test_2()
     PASS(t2-t1)
 }
 
+// tests knapsack
 bool knapsack_unlimited_test()
 {
     START_TEST
@@ -221,7 +227,7 @@ bool knapsack_unlimited_test()
     std::vector<int> v = { 30, 14, 16, 9 };
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    size_t res = aathalg::knapsack_unlimited(10, w, v);
+    size_t res = algae::knapsack_unlimited(10, w, v);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     size_t correct = 48;
@@ -232,6 +238,7 @@ bool knapsack_unlimited_test()
     PASS(t2-t1)
 }
 
+// tests knapsack
 bool knapsack_up_to_one_test()
 {
     START_TEST
@@ -240,7 +247,7 @@ bool knapsack_up_to_one_test()
     std::vector<int> v = { 30, 14, 16, 9 };
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    size_t res = aathalg::knapsack_up_to_one(10, w, v);
+    size_t res = algae::knapsack_up_to_one(10, w, v);
     auto t2 = std::chrono::high_resolution_clock::now();
 
     size_t correct = 46;
@@ -259,7 +266,7 @@ int main()
         dfs_test, 
         lin_test, 
         dag_min_dist_test, 
-        longest_indcreasing_subsequence_test,
+        longest_increasing_subsequence_test,
         edit_distance_test_1,
         edit_distance_test_2,
         knapsack_unlimited_test,

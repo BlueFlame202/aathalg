@@ -1,11 +1,11 @@
-#ifndef AATHALG_GRAPH_H
-#define AATHALG_GRAPH_H
+#ifndef ALGAE_GRAPH_H
+#define ALGAE_GRAPH_H
 
 #include <stdio.h>
 #include <vector>
 #include <stack>
 
-namespace aathalg 
+namespace algae 
 {
 
 /**

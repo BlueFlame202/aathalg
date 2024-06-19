@@ -1,11 +1,11 @@
-#include "aathalg/graph.hpp"
+#include "algae/graph.hpp"
 
 #include <stack>
 #include <queue>
 #include <limits>
 #include <cfloat>
 
-namespace aathalg
+namespace algae
 {
 
 list_graph::list_graph() 

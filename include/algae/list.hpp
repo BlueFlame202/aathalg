@@ -1,12 +1,12 @@
-#ifndef AATHALG_LIST_H
-#define AATHALG_LIST_H
+#ifndef ALGAE_LIST_H
+#define ALGAE_LIST_H
 
 #include <stdio.h>
 #include <vector>
 #include <string>
 #include <algorithm>
 
-namespace aathalg
+namespace algae
 {
 
 template <typename T>
@@ -28,13 +28,13 @@ std::pair<T, size_t> max(std::vector<T> seq, size_t max_index=-1)
 }
 
 /**
- * Currently it looks like its better to define AATHALG_LIS_BACKTRACK in terms of speed
+ * Currently it looks like its better to define ALGAE_LIS_BACKTRACK in terms of speed
  * Keeping the extra data rather than backtracking actually hurts time somehow, more investigation needed.
  * TODO: Maybe try a different implementation instead of a vector of std::pairs, like just having two std::vectors
  * TODO: Implement randomized tests and then see the distributions of times it takes.
 */
-#define AATHALG_LIS_BACKTRACK
-#ifdef AATHALG_LIS_BACKTRACK
+#define ALGAE_LIS_BACKTRACK
+#ifdef ALGAE_LIS_BACKTRACK
 template <typename T>
 std::vector<T> longest_increasing_subsequence(std::vector<T> seq) // O(len(seq)^2) dp algorithm
 {
